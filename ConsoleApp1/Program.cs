@@ -30,7 +30,7 @@ namespace ConsoleApp1
         static void Main(string[] args)
         {
             XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load("square.xml");
+            xmlDoc.Load("square1.xml");
 
             XmlNodeList sq = xmlDoc.GetElementsByTagName("Square");
             XmlNodeList time = xmlDoc.GetElementsByTagName("ReportTimeStamp");
@@ -74,12 +74,39 @@ namespace ConsoleApp1
 
             for (int i = 0; i <= sq.Count - 1; i++)
             {
+
+
+                if (i == (sq.Count - 1))
+                {
+                    Console.WriteLine(sq[i].InnerText);
+                    Console.WriteLine("end of array, take this time and subtract");
+                }
+                else
+                {
+                    if (sq[i].InnerText == "true" && sq[i + 1].InnerText == "false" )
+                    {
+                        // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
+
+                        Console.WriteLine("went from true to false");
+                    }
+                    //&& sq[i + 1].InnerText == "true"
+                    else if (sq[i].InnerText == "false" && sq[i + 1].InnerText == "true" )
+                    {
+                        // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
+                        Console.WriteLine("crassssh");
+                    }
+                }
+
+
+
+
                 //if (sq[i].InnerText == "false" && sq[i + 1].InnerText != "false")
                 //if (sq[i].InnerText == "false" && sq[i + 1].InnerText !="false")
 
                 //{
                 //    Console.WriteLine("went from false to true");
-                Console.WriteLine(time[i].InnerText.Substring(17, 9));
+                //Console.WriteLine(time[i].InnerText.Substring(17, 9));
+                // Console.WriteLine(sq.);
 
                 //    //String test3 = "";
                 //    //test3 = time[i].InnerText.Substring(17, 8);
@@ -97,18 +124,24 @@ namespace ConsoleApp1
 
                 // if (sq[i].InnerText == "true" && sq[i + 1].InnerText != "true")
                 //if (sq[i].InnerText == "true")
-                if (sq[i].InnerText == "true" && sq[i + 1].InnerText == "false" && sq.Count > i)
-                {
-                    // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
 
-                    Console.WriteLine("went from true to false");
-                }
-                //&& sq[i + 1].InnerText == "true"
-                if (sq[i].InnerText == "false" && sq[i + 1].InnerText == "true" && i < sq.Count)
-                {
-                    // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
-                    Console.WriteLine("crassssh");
-                }
+
+
+                //if (sq[i].InnerText == "true" && sq[i + 1].InnerText == "false" && sq.Count > i)
+                //{
+                //    // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
+
+                //    Console.WriteLine("went from true to false");
+                //}
+                ////&& sq[i + 1].InnerText == "true"
+                //if (sq[i].InnerText == "false" && sq[i + 1].InnerText == "true" && i < sq.Count-1)
+                //{
+                //    // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
+                //    Console.WriteLine("crassssh");
+                //}
+
+
+
 
                 //if (sq[i].InnerText == "false" && sq.Count > i && sq[i + 1].InnerText != "false" && sq.Count > i)
                 //{
@@ -161,9 +194,9 @@ namespace ConsoleApp1
 
             //Console.WriteLine("Press enter to close...");
             //Console.ReadLine();
-                            
 
-    }
+
+        }
 
         //private static string getString()
         //{
