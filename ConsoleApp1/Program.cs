@@ -12,13 +12,7 @@ namespace ConsoleApp1
     class Program
     {
 
-
         public DateTime ReportTimeStamp { get; set; }
-
-        public void getTime()
-        {
-
-        }
 
         struct Button
         {
@@ -38,38 +32,12 @@ namespace ConsoleApp1
 
             buttonState bs = new buttonState(xmlDoc);
 
-            
-            //for (int i = 0; i <= sq.Count - 1; i++)
-            //{
-
-            //    if (i == (sq.Count - 1))
-            //    {
-            //        Console.WriteLine(sq[i].InnerText);
-            //        Console.WriteLine("end of array, take this time and subtract");
-            //    }
-            //    else
-            //    {
-            //        if (sq[i].InnerText == "true" && sq[i + 1].InnerText == "false" )
-            //        {
-            //            // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
-
-            //            Console.WriteLine("went from true to false");
-            //        }
-                    
-            //        else if (sq[i].InnerText == "false" && sq[i + 1].InnerText == "true" )
-            //        {
-            //            // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
-            //            Console.WriteLine("crassssh");
-            //        }
-            //    }
-               
-            //}
+            bs.Square();
+            bs.Triangle();
+           
             
         }
 
-        //private static string getString()
-        //{
-        //    return "doggies";
-        //}
-    }
+   
+    }//program
 }
