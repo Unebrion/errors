@@ -33,7 +33,7 @@ namespace ConsoleApp1
             buttonState bs = new buttonState(xmlDoc);
 
             bs.Square();
-            bs.Triangle();
+           // bs.Triangle();
            
             
         }

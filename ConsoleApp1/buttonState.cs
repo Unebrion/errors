@@ -13,12 +13,14 @@ namespace ConsoleApp1
     {
         
         XmlDocument xmlDoc = new XmlDocument();
+
         //Button CurrentState = new Button();
 
         // I want to make this array equal to sq.count for example I don't know how
         //also you suck
-        Button[] timeCalc = new Button[7];
-     
+        //Button[] timeCalc = new Button[];
+        XmlNodeList cr,ci,tr,l1,r1,du,dr,dDo,dl;
+        XmlNodeList sq;
         struct Button
         {
             public String isPressed;
@@ -33,13 +35,24 @@ namespace ConsoleApp1
 
         public buttonState(XmlDocument xml)
         {
+            //XmlDocument xmlDoc = new XmlDocument();
             xmlDoc = xml;
+            Button[] timeCalc = new Button[xmlDoc.GetElementsByTagName("Square").Count];
+            XmlNodeList sq = xmlDoc.GetElementsByTagName("Square");
+            XmlNodeList cr = xmlDoc.GetElementsByTagName("Cross");
+
+
+
+
+
+
         }
 
         public void Square()
         {
-            XmlNodeList sq = xmlDoc.GetElementsByTagName("Square");
-
+           // XmlNodeList sq = xmlDoc.GetElementsByTagName("Square");
+           
+           
             for (int i = 0; i <= sq.Count - 1; i++)
             {
 
@@ -68,7 +81,7 @@ namespace ConsoleApp1
 
         public void Cross()
         {
-            XmlNodeList cr = xmlDoc.GetElementsByTagName("Cross");
+            
 
             for (int i = 0; i <= cr.Count - 1; i++)
             {
