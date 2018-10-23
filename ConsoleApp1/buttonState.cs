@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Runtime.InteropServices;
 
 
 namespace ConsoleApp1
@@ -33,13 +34,15 @@ namespace ConsoleApp1
         XmlNodeList dr;
         XmlNodeList dDo;
         XmlNodeList dl;
+        XmlNodeList time;
         Button[] timeCalc;
         struct Button
         {
             public String isPressed;
             public String timePressed;
             public String s1, s2, s3;
-            
+            public String Sq_Bool;
+            public Double sq_Time;
             
         }
 
@@ -55,6 +58,7 @@ namespace ConsoleApp1
             //cr,ci,tr,l1,r1,du,dr,dDo,dl;
 
             xmlDoc = xml;
+            time = xmlDoc.GetElementsByTagName("ReportTimeStamp");
             timeCalc = new Button[xmlDoc.GetElementsByTagName("Square").Count];
             sq = xmlDoc.GetElementsByTagName("Square");
             cr = xmlDoc.GetElementsByTagName("Cross");
@@ -72,33 +76,95 @@ namespace ConsoleApp1
         {
            // XmlNodeList sq = xmlDoc.GetElementsByTagName("Square");
            
-           
+           int counter = 0;
             for (int i = 0; i <= sq.Count - 1; i++)
             {
 
                 if (i == (sq.Count - 1))
                 {
+                    Console.WriteLine();
                     Console.WriteLine(sq[i].InnerText);
-                    Console.WriteLine("end of array, take this time and subtract");
-                    timeCalc[i].isPressed = sq[i].InnerText;
+                    Console.WriteLine("end of array, take this time and subtract");                   
+                    timeCalc[counter].Sq_Bool = sq[i].InnerText;
+                    timeCalc[counter].sq_Time = Double.Parse(time[i].InnerText.Substring(17,8));     
+                    Console.WriteLine("if i == sq.count -1");
+                    Console.WriteLine("time calc has: {0}, {1}", timeCalc[counter].Sq_Bool, timeCalc[counter].sq_Time);
+                    counter++;
                 }
                 else
                 {
                     if (sq[i].InnerText == "true" && sq[i + 1].InnerText == "false")
                     {
                         // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
-
+                        Console.WriteLine();
                         Console.WriteLine("went from true to false");
+                        timeCalc[counter].Sq_Bool = sq[i].InnerText;
+                        timeCalc[counter].sq_Time = Double.Parse(time[i].InnerText.Substring(17, 8));
+                        Console.WriteLine("if square is true");
+                        Console.WriteLine("time calc has: {0}, {1}", timeCalc[counter].Sq_Bool, timeCalc[counter].sq_Time);
+                        counter++;
                     }
 
                     else if (sq[i].InnerText == "false" && sq[i + 1].InnerText == "true")
                     {
                         // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
-                        Console.WriteLine("crassssh");
+                        //Console.WriteLine("crassssh");
+                        Console.WriteLine();
+                        timeCalc[counter].Sq_Bool = sq[i].InnerText;
+                        timeCalc[counter].sq_Time = Double.Parse(time[i].InnerText.Substring(17, 8));
+                        Console.WriteLine("if square is false");
+                        Console.WriteLine("time calc has: {0}, {1}", timeCalc[counter].Sq_Bool, timeCalc[counter].sq_Time);
+                        Console.WriteLine("attempting to print length of time calc: {0}",timeCalc.Length);
+                        //  Console.WriteLine("print out timeclock.sq_bool: {0}",timeCalc[i].Sq_Bool);
+                        counter++;
+
                     }
                 }//else
+
             }//for loop
+
+
+
+            //testing loop to see what is in timecalc array
+            //for (int i = 0; i < timeCalc.Length; i++)
+            //{
+            //    Console.WriteLine("Index: {0} sq_bool is: {1} and sq_time is: {2}", i, timeCalc[i].Sq_Bool,timeCalc[i].sq_Time);
+            //}
+
+
+
+
+
+            for (int i = 0; i <= timeCalc.Length; i++)
+            {
+                if (i == (timeCalc.Length - 1))
+                {
+                    Console.WriteLine("last entry I think");
+                }
+
+                else
+                {
+                    if (timeCalc[i].Sq_Bool == "true" && timeCalc[i + 1].Sq_Bool == "false")
+                    {
+                        Double x = timeCalc[i + 1].sq_Time - timeCalc[i].sq_Time;
+                        Console.WriteLine("attempting the math: {0}", x);
+                    }
+
+                    else
+                    {
+                        Console.WriteLine("do I ever see this?");
+                    }
+                }
+
+
+            }
+
         }//square
+
+        public void Calc()
+        {
+
+        }
 
         public void Cross()
         {
