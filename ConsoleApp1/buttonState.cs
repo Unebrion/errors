@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
-using System.Runtime.InteropServices;
 
 
 namespace ConsoleApp1
@@ -35,12 +34,14 @@ namespace ConsoleApp1
         XmlNodeList dDo;
         XmlNodeList dl;
         XmlNodeList time;
+        List<Button> timeCalcList;            
         Button[] timeCalc;
+        Button[] trimmedCalc;
+
         struct Button
         {
             public String isPressed;
-            public String timePressed;
-            public String s1, s2, s3;
+            public String timePressed;          
             public String Sq_Bool;
             public Double sq_Time;
             
@@ -53,13 +54,13 @@ namespace ConsoleApp1
         }
 
         public buttonState(XmlDocument xml)
-        {
-            //XmlDocument xmlDoc = new XmlDocument();
+        {           
             //cr,ci,tr,l1,r1,du,dr,dDo,dl;
 
             xmlDoc = xml;
             time = xmlDoc.GetElementsByTagName("ReportTimeStamp");
             timeCalc = new Button[xmlDoc.GetElementsByTagName("Square").Count];
+            timeCalcList = new List<Button>();
             sq = xmlDoc.GetElementsByTagName("Square");
             cr = xmlDoc.GetElementsByTagName("Cross");
             ci = xmlDoc.GetElementsByTagName("Circle");
@@ -72,23 +73,28 @@ namespace ConsoleApp1
             dl = xmlDoc.GetElementsByTagName("DPad_Left");
         }
 
-        public void Square()
+        public void Square(int ct)
         {
-           // XmlNodeList sq = xmlDoc.GetElementsByTagName("Square");
-           
-           int counter = 0;
+            // XmlNodeList sq = xmlDoc.GetElementsByTagName("Square");
+            //timeCalcList.Add();
+           int counter = ct;
             for (int i = 0; i <= sq.Count - 1; i++)
             {
 
                 if (i == (sq.Count - 1))
                 {
                     Console.WriteLine();
-                    Console.WriteLine(sq[i].InnerText);
-                    Console.WriteLine("end of array, take this time and subtract");                   
+                    //  Console.WriteLine(sq[i].InnerText);
+                    //  Console.WriteLine("end of array, take this time and subtract");    
+                    //timeCalcList.Add(sq[i].InnerText);
+                    //timeCalcList.Add(sq[i].InnerText);
+                   
+
+
                     timeCalc[counter].Sq_Bool = sq[i].InnerText;
                     timeCalc[counter].sq_Time = Double.Parse(time[i].InnerText.Substring(17,8));     
-                    Console.WriteLine("if i == sq.count -1");
-                    Console.WriteLine("time calc has: {0}, {1}", timeCalc[counter].Sq_Bool, timeCalc[counter].sq_Time);
+                  //  Console.WriteLine("if i == sq.count -1");
+                   // Console.WriteLine("time calc has: {0}, {1}", timeCalc[counter].Sq_Bool, timeCalc[counter].sq_Time);
                     counter++;
                 }
                 else
@@ -128,14 +134,11 @@ namespace ConsoleApp1
             //testing loop to see what is in timecalc array
             //for (int i = 0; i < timeCalc.Length; i++)
             //{
-            //    Console.WriteLine("Index: {0} sq_bool is: {1} and sq_time is: {2}", i, timeCalc[i].Sq_Bool,timeCalc[i].sq_Time);
+            //    Console.WriteLine("Index: {0} sq_bool is: {1} and sq_time is: {2}", i, timeCalc[i].Sq_Bool, timeCalc[i].sq_Time);
             //}
 
 
-
-
-
-            for (int i = 0; i <= timeCalc.Length; i++)
+            for (int i = 0; i <= timeCalc.Length - 1; i++)
             {
                 if (i == (timeCalc.Length - 1))
                 {
@@ -152,18 +155,26 @@ namespace ConsoleApp1
 
                     else
                     {
-                        Console.WriteLine("do I ever see this?");
+                       // Console.WriteLine("do I ever see this?");
                     }
                 }
 
 
             }
-
+            // Console.WriteLine("timeCalc index 200 is :{0}",timeCalc[200].Sq_Bool);
+            trim_Array();
         }//square
 
         public void Calc()
         {
+            int count = 0;
+            for (int i = 0; i < timeCalc.Length - 1; i++)
+            {
+                Square(count);
+                count++;
+            }
 
+            Console.WriteLine("timecalc.length is: {0}",timeCalc.Length); 
         }
 
         public void Cross()
@@ -436,7 +447,34 @@ namespace ConsoleApp1
             }//for loop
         }//Dpad Left
 
+        public void trim_Array()
+        {
+            //if all buttons .i = 0 then new array = i.length
+            trimmedCalc = timeCalc;
+            
+            Console.WriteLine("trimmed calc at index 0: {0}",trimmedCalc[0].sq_Time);
+            
+            
 
+            for (int i = 0; i < timeCalc.Length - 1; i++)
+            {
+
+                if (timeCalc[i].sq_Time == 0)
+                {
+                    Console.WriteLine("get hur?");
+                    break;
+                }
+                else
+                {
+                    trimmedCalc[i].sq_Time = timeCalc[i].sq_Time;
+                    Console.WriteLine("trimmedCalc at index [i] has: {0}", trimmedCalc[i]);
+                }
+               
+
+            }       
+
+
+        }
 
 
 

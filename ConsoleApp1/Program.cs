@@ -27,12 +27,14 @@ namespace ConsoleApp1
             xmlDoc.Load("square.xml");
             XmlNodeList sq = xmlDoc.GetElementsByTagName("Square");
             XmlNodeList time = xmlDoc.GetElementsByTagName("ReportTimeStamp");
-            Button[] buttonTime = new Button[time.Count];
+           // Button[] buttonTime = new Button[time.Count];
 
 
             buttonState bs = new buttonState(xmlDoc);
-
-            bs.Square();
+           // bs.Square(5);
+            bs.trim_Array();
+          //  bs.Calc();
+            //bs.Square();
            // bs.Triangle();
            
             
