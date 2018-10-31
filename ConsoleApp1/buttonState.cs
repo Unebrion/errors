@@ -8,21 +8,9 @@ using System.Xml;
 
 namespace ConsoleApp1
 {
-
     class buttonState
-    {
-        
+    {       
         XmlDocument xmlDoc = new XmlDocument();
-
-        //Button CurrentState = new Button();
-
-        // I want to make this array equal to sq.count for example I don't know how
-        //also you suck
-        //Button[] timeCalc = new Button[];
-        //asshole c# won't let me declare like this
-        // XmlNodeList sq, ci,tr,l1,r1,du,dr,dDo,dl;
-
-
         XmlNodeList sq;
         XmlNodeList tr;
         XmlNodeList cr;
@@ -33,8 +21,7 @@ namespace ConsoleApp1
         XmlNodeList dr;
         XmlNodeList dDo;
         XmlNodeList dl;
-        XmlNodeList time;
-        List<Button> timeCalcList;            
+        XmlNodeList time;            
         Button[] timeCalc;
         Button[] trimmedCalc;
 
@@ -43,8 +30,7 @@ namespace ConsoleApp1
             public String isPressed;
             public String timePressed;          
             public String Sq_Bool;
-            public Double sq_Time;
-            
+            public Double sq_Time;            
         }
 
         //default constructor
@@ -56,7 +42,6 @@ namespace ConsoleApp1
         public buttonState(XmlDocument xml)
         {           
             //cr,ci,tr,l1,r1,du,dr,dDo,dl;
-
             xmlDoc = xml;
             time = xmlDoc.GetElementsByTagName("ReportTimeStamp");
             timeCalc = new Button[xmlDoc.GetElementsByTagName("Square").Count];
@@ -87,16 +72,14 @@ namespace ConsoleApp1
                     //  Console.WriteLine(sq[i].InnerText);
                     //  Console.WriteLine("end of array, take this time and subtract");    
                     //timeCalcList.Add(sq[i].InnerText);
-                    //timeCalcList.Add(sq[i].InnerText);
-                   
-
-
+                    //timeCalcList.Add(sq[i].InnerText);                  
                     timeCalc[counter].Sq_Bool = sq[i].InnerText;
                     timeCalc[counter].sq_Time = Double.Parse(time[i].InnerText.Substring(17,8));     
                   //  Console.WriteLine("if i == sq.count -1");
                    // Console.WriteLine("time calc has: {0}, {1}", timeCalc[counter].Sq_Bool, timeCalc[counter].sq_Time);
                     counter++;
                 }
+
                 else
                 {
                     if (sq[i].InnerText == "true" && sq[i + 1].InnerText == "false")
@@ -123,21 +106,11 @@ namespace ConsoleApp1
                         Console.WriteLine("attempting to print length of time calc: {0}",timeCalc.Length);
                         //  Console.WriteLine("print out timeclock.sq_bool: {0}",timeCalc[i].Sq_Bool);
                         counter++;
-
-                    }
+                    }//else if
                 }//else
-
             }//for loop
 
-
-
-            //testing loop to see what is in timecalc array
-            //for (int i = 0; i < timeCalc.Length; i++)
-            //{
-            //    Console.WriteLine("Index: {0} sq_bool is: {1} and sq_time is: {2}", i, timeCalc[i].Sq_Bool, timeCalc[i].sq_Time);
-            //}
-
-
+            //this does the time calculation 
             for (int i = 0; i <= timeCalc.Length - 1; i++)
             {
                 if (i == (timeCalc.Length - 1))
@@ -153,16 +126,14 @@ namespace ConsoleApp1
                         Console.WriteLine("attempting the math: {0}", x);
                     }
 
+                    //this isn't necessary I don't think
                     else
                     {
                        // Console.WriteLine("do I ever see this?");
-                    }
-                }
+                    }//nested else
+                }//else
+            }//for loop
 
-
-            }
-            // Console.WriteLine("timeCalc index 200 is :{0}",timeCalc[200].Sq_Bool);
-            trim_Array();
         }//square
 
         public void Calc()
@@ -451,32 +422,30 @@ namespace ConsoleApp1
         {
             //if all buttons .i = 0 then new array = i.length
             trimmedCalc = timeCalc;
+            int counter = 0;
+            //Console.WriteLine("trimmed calc at index 0: {0}",trimmedCalc[0].sq_Time);
             
-            Console.WriteLine("trimmed calc at index 0: {0}",trimmedCalc[0].sq_Time);
             
-            
-
+            //checks if there is a time value this may need adjusted since it is only checking square. Could do lots of &&'s for each button. Time seems like the right value
             for (int i = 0; i < timeCalc.Length - 1; i++)
             {
-
-                if (timeCalc[i].sq_Time == 0)
+                
+                if (timeCalc[i].sq_Time != 0)
                 {
-                    Console.WriteLine("get hur?");
-                    break;
-                }
-                else
-                {
-                    trimmedCalc[i].sq_Time = timeCalc[i].sq_Time;
-                    Console.WriteLine("trimmedCalc at index [i] has: {0}", trimmedCalc[i]);
-                }
-               
+                    counter++;
+                }            
 
-            }       
+            }  //for loop     
+            
+            //resizes the Array after the button press lengths are written
+            Array.Resize(ref timeCalc, counter);
 
+            //checking the contents of the array
+            for (int i = 0; i < timeCalc.Length; i++)
+            {
+                Console.WriteLine("Index: {0} sq_bool is: {1} and sq_time is: {2}", i, timeCalc[i].Sq_Bool, timeCalc[i].sq_Time);
+            }
 
-        }
-
-
-
+        }//trim array
     }//button state
 }//namespace

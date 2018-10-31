@@ -31,7 +31,7 @@ namespace ConsoleApp1
 
 
             buttonState bs = new buttonState(xmlDoc);
-           // bs.Square(5);
+            bs.Square(0);
             bs.trim_Array();
           //  bs.Calc();
             //bs.Square();
