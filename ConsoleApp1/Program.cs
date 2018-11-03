@@ -27,14 +27,11 @@ namespace ConsoleApp1
             try
             {
                 XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.Load("../../test_set.xml");
-                Console.Write(xmlDoc);
-                XmlNodeList sq = xmlDoc.GetElementsByTagName("Square");
-                XmlNodeList time = xmlDoc.GetElementsByTagName("ReportTimeStamp");
+                xmlDoc.Load("../../../test_set.xml");
 
                 buttonState bs = new buttonState(xmlDoc);
-                bs.Square(0);
-                bs.trim_Array();
+                bs.Square();
+                //bs.trim_Array();
             }
             catch (FileNotFoundException ex)
             {

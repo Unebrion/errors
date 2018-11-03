@@ -14,23 +14,23 @@ namespace ConsoleApp1
         //declare class-local var
         //constant super array, will be fed into generic method later
         //this never changes, so doesnt need to be in constructor
-        const string SQUARE     = "SQUARE";
-        const string CIRCLE     = "CIRCLE";
-        const string TRIANGLE   = "TRIANGLE";
-        const string CROSS      = "CROSS";
-        const string DPAD_UP    = "DPAD_UP";
-        const string DPAD_DOWN  = "DPAD_DOWN";
-        const string DPAD_LEFT  = "DPAD_LEFT";
-        const string DPAD_RIGHT = "DPAD_RIGHT";
-        string[] super_array    = { SQUARE,
-                                    CIRCLE,
-                                    TRIANGLE,
-                                    CROSS,
-                                    DPAD_UP,
-                                    DPAD_DOWN,
-                                    DPAD_LEFT,
-                                    DPAD_RIGHT
-                                  };
+        const string SQUARE             = "SQUARE";
+        const string CIRCLE             = "CIRCLE";
+        const string TRIANGLE           = "TRIANGLE";
+        const string CROSS              = "CROSS";
+        const string DPAD_UP            = "DPAD_UP";
+        const string DPAD_DOWN          = "DPAD_DOWN";
+        const string DPAD_LEFT          = "DPAD_LEFT";
+        const string DPAD_RIGHT         = "DPAD_RIGHT";
+        static string[] super_array     = { SQUARE,
+                                            CIRCLE,
+                                            TRIANGLE,
+                                            CROSS,
+                                            DPAD_UP,
+                                            DPAD_DOWN,
+                                            DPAD_LEFT,
+                                            DPAD_RIGHT
+                                          };
         
         //probably better way to do this? could load into an array if wanted
         XmlDocument xmlDoc = new XmlDocument();
@@ -45,6 +45,8 @@ namespace ConsoleApp1
                      timestamp_nodelist;            
         Button[] timeCalc;
         Button[] trimmedCalc;
+        int xml_length;
+        int super_array_length = super_array.Length;
 
 
 
@@ -71,12 +73,11 @@ namespace ConsoleApp1
                 cross_nodelist = xmlDoc.GetElementsByTagName("Cross");
                 circle_nodelist = xmlDoc.GetElementsByTagName("Circle");
                 triangle_nodelist = xmlDoc.GetElementsByTagName("Triangle");
-                l1 = xmlDoc.GetElementsByTagName("L1");
-                r1 = xmlDoc.GetElementsByTagName("R1");
                 dpad_up_nodelist = xmlDoc.GetElementsByTagName("DPad_Up");
                 dpad_right_nodelist = xmlDoc.GetElementsByTagName("DPad_Right");
                 dpad_down_nodelist = xmlDoc.GetElementsByTagName("DPad_Down");
                 dpad_left_nodelist = xmlDoc.GetElementsByTagName("DPad_Left");
+                xml_length = timestamp_nodelist.Count;
             }
             catch (FileNotFoundException ex)
             {
@@ -98,8 +99,6 @@ namespace ConsoleApp1
                 cross_nodelist = xmlDoc.GetElementsByTagName("Cross");
                 circle_nodelist = xmlDoc.GetElementsByTagName("Circle");
                 triangle_nodelist = xmlDoc.GetElementsByTagName("Triangle");
-                l1 = xmlDoc.GetElementsByTagName("L1");
-                r1 = xmlDoc.GetElementsByTagName("R1");
                 dpad_up_nodelist = xmlDoc.GetElementsByTagName("DPad_Up");
                 dpad_right_nodelist = xmlDoc.GetElementsByTagName("DPad_Right");
                 dpad_down_nodelist = xmlDoc.GetElementsByTagName("DPad_Down");
@@ -111,11 +110,46 @@ namespace ConsoleApp1
             }
         }
 
-        public void Square(int ct)
+        //top-level method for scanning through xml file and getting information for each dualshock state
+        public void scan_xml()
         {
-            // XmlNodeList sq = xmlDoc.GetElementsByTagName("Square");
-            //timeCalcList.Add();
-           int counter = ct;
+            bool end_of_array = false;
+            //iterate through boolean array lengths
+            for (int i = 0; i <= xml_length - 1; i++)
+            {
+                for (int j = 0; j <= super_array_length - 1; j++)
+                {
+                    //generic button info gatherer
+                    if (i == (xml_length - 1))
+                    {
+                        //special condition end of boolean array
+                        end_of_array = true;
+                        button_state_build(super_array[j], i, end_of_array);
+                    }
+                    else
+                    {
+                        //proceed as normal
+                        button_state_build(super_array[j], i, end_of_array);
+                    }
+                }
+            }
+        }
+
+        //does the actual parsing of information for each button state and records in Button struct
+        //this struct is then put into an array of type Button
+        public void button_state_build(string button_pointer, int boolean_index, bool end_flag)
+        {
+            //TODO: try to get non-hardcoded version of Square() working
+            //      i think we'll need a struct of button structs to create dualshockstate-like struct
+            //      then will make array of dualshockstate structs to port out to build-script-class.
+            //      this requires a button struct for every button
+            //      atm it needs: isbuttonpressed flag, startofpress time, endofpress time
+            //      thought is start will be null if not pressed and end will be null if is pressed?
+        }
+
+        public void Square()
+        {
+           int counter = 0;
             for (int i = 0; i <= square_nodelist.Count - 1; i++)
             {
 
@@ -194,7 +228,7 @@ namespace ConsoleApp1
             int count = 0;
             for (int i = 0; i < timeCalc.Length - 1; i++)
             {
-                Square(count);
+                Square();
                 count++;
             }
 
