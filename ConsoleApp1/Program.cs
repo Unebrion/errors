@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.IO;
 
 
 
@@ -23,21 +24,26 @@ namespace ConsoleApp1
 
         public static void Main(string[] args)
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load("square.xml");
-            XmlNodeList sq = xmlDoc.GetElementsByTagName("Square");
-            XmlNodeList time = xmlDoc.GetElementsByTagName("ReportTimeStamp");
-           // Button[] buttonTime = new Button[time.Count];
+            try
+            {
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.Load("../../test_set.xml");
+                Console.Write(xmlDoc);
+                XmlNodeList sq = xmlDoc.GetElementsByTagName("Square");
+                XmlNodeList time = xmlDoc.GetElementsByTagName("ReportTimeStamp");
+
+                buttonState bs = new buttonState(xmlDoc);
+                bs.Square(0);
+                bs.trim_Array();
+            }
+            catch (FileNotFoundException ex)
+            {
+                Console.Write("Exception occured: {0}", ex.Message);
+                throw;
+            }
 
 
-            buttonState bs = new buttonState(xmlDoc);
-            bs.Square(0);
-            bs.trim_Array();
-          //  bs.Calc();
-            //bs.Square();
-           // bs.Triangle();
-           
-            
+
         }
 
    

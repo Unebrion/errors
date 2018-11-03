@@ -4,26 +4,49 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.IO;
 
 
 namespace ConsoleApp1
 {
     class buttonState
-    {       
+    {
+        //declare class-local var
+        //constant super array, will be fed into generic method later
+        //this never changes, so doesnt need to be in constructor
+        const string SQUARE     = "SQUARE";
+        const string CIRCLE     = "CIRCLE";
+        const string TRIANGLE   = "TRIANGLE";
+        const string CROSS      = "CROSS";
+        const string DPAD_UP    = "DPAD_UP";
+        const string DPAD_DOWN  = "DPAD_DOWN";
+        const string DPAD_LEFT  = "DPAD_LEFT";
+        const string DPAD_RIGHT = "DPAD_RIGHT";
+        string[] super_array    = { SQUARE,
+                                    CIRCLE,
+                                    TRIANGLE,
+                                    CROSS,
+                                    DPAD_UP,
+                                    DPAD_DOWN,
+                                    DPAD_LEFT,
+                                    DPAD_RIGHT
+                                  };
+        
+        //probably better way to do this? could load into an array if wanted
         XmlDocument xmlDoc = new XmlDocument();
-        XmlNodeList sq;
-        XmlNodeList tr;
-        XmlNodeList cr;
-        XmlNodeList ci;
-        XmlNodeList l1;
-        XmlNodeList r1;
-        XmlNodeList du;
-        XmlNodeList dr;
-        XmlNodeList dDo;
-        XmlNodeList dl;
-        XmlNodeList time;            
+        XmlNodeList  square_nodelist,
+                     triangle_nodelist,
+                     cross_nodelist,
+                     circle_nodelist,
+                     dpad_up_nodelist,
+                     dpad_right_nodelist,
+                     dpad_down_nodelist,
+                     dpad_left_nodelist,
+                     timestamp_nodelist;            
         Button[] timeCalc;
         Button[] trimmedCalc;
+
+
 
         struct Button
         {
@@ -36,26 +59,56 @@ namespace ConsoleApp1
         //default constructor
         public buttonState()
         {
-
+            try
+            {
+                //cr,ci,tr,l1,r1,du,dr,dDo,dl;
+                Console.WriteLine("Enter file path:");
+                xmlDoc.Load(Console.ReadLine());
+                timestamp_nodelist = xmlDoc.GetElementsByTagName("ReportTimeStamp");
+                timeCalc = new Button[xmlDoc.GetElementsByTagName("Square").Count];
+                //timeCalcList = new List<Button>();
+                square_nodelist = xmlDoc.GetElementsByTagName("Square");
+                cross_nodelist = xmlDoc.GetElementsByTagName("Cross");
+                circle_nodelist = xmlDoc.GetElementsByTagName("Circle");
+                triangle_nodelist = xmlDoc.GetElementsByTagName("Triangle");
+                l1 = xmlDoc.GetElementsByTagName("L1");
+                r1 = xmlDoc.GetElementsByTagName("R1");
+                dpad_up_nodelist = xmlDoc.GetElementsByTagName("DPad_Up");
+                dpad_right_nodelist = xmlDoc.GetElementsByTagName("DPad_Right");
+                dpad_down_nodelist = xmlDoc.GetElementsByTagName("DPad_Down");
+                dpad_left_nodelist = xmlDoc.GetElementsByTagName("DPad_Left");
+            }
+            catch (FileNotFoundException ex)
+            {
+                Console.Write("Exception occured: {0}", ex.Message);
+            }
         }
 
+        //overload constructor
         public buttonState(XmlDocument xml)
-        {           
-            //cr,ci,tr,l1,r1,du,dr,dDo,dl;
-            xmlDoc = xml;
-            time = xmlDoc.GetElementsByTagName("ReportTimeStamp");
-            timeCalc = new Button[xmlDoc.GetElementsByTagName("Square").Count];
-            timeCalcList = new List<Button>();
-            sq = xmlDoc.GetElementsByTagName("Square");
-            cr = xmlDoc.GetElementsByTagName("Cross");
-            ci = xmlDoc.GetElementsByTagName("Circle");
-            tr = xmlDoc.GetElementsByTagName("Triangle");
-            l1 = xmlDoc.GetElementsByTagName("L1");
-            r1 = xmlDoc.GetElementsByTagName("R1");
-            du = xmlDoc.GetElementsByTagName("DPad_Up");
-            dr = xmlDoc.GetElementsByTagName("DPad_Right");
-            dDo = xmlDoc.GetElementsByTagName("DPad_Down");
-            dl = xmlDoc.GetElementsByTagName("DPad_Left");
+        {
+            try
+            {
+                //cr,ci,tr,l1,r1,du,dr,dDo,dl;
+                xmlDoc = xml;
+                timestamp_nodelist = xmlDoc.GetElementsByTagName("ReportTimeStamp");
+                timeCalc = new Button[xmlDoc.GetElementsByTagName("Square").Count];
+                //timeCalcList = new List<Button>();
+                square_nodelist = xmlDoc.GetElementsByTagName("Square");
+                cross_nodelist = xmlDoc.GetElementsByTagName("Cross");
+                circle_nodelist = xmlDoc.GetElementsByTagName("Circle");
+                triangle_nodelist = xmlDoc.GetElementsByTagName("Triangle");
+                l1 = xmlDoc.GetElementsByTagName("L1");
+                r1 = xmlDoc.GetElementsByTagName("R1");
+                dpad_up_nodelist = xmlDoc.GetElementsByTagName("DPad_Up");
+                dpad_right_nodelist = xmlDoc.GetElementsByTagName("DPad_Right");
+                dpad_down_nodelist = xmlDoc.GetElementsByTagName("DPad_Down");
+                dpad_left_nodelist = xmlDoc.GetElementsByTagName("DPad_Left");
+            }
+            catch (FileNotFoundException ex)
+            {
+                Console.Write("Exception occured: {0}", ex.Message);
+            }
         }
 
         public void Square(int ct)
@@ -63,18 +116,18 @@ namespace ConsoleApp1
             // XmlNodeList sq = xmlDoc.GetElementsByTagName("Square");
             //timeCalcList.Add();
            int counter = ct;
-            for (int i = 0; i <= sq.Count - 1; i++)
+            for (int i = 0; i <= square_nodelist.Count - 1; i++)
             {
 
-                if (i == (sq.Count - 1))
+                if (i == (square_nodelist.Count - 1))
                 {
                     Console.WriteLine();
                     //  Console.WriteLine(sq[i].InnerText);
                     //  Console.WriteLine("end of array, take this time and subtract");    
                     //timeCalcList.Add(sq[i].InnerText);
                     //timeCalcList.Add(sq[i].InnerText);                  
-                    timeCalc[counter].Sq_Bool = sq[i].InnerText;
-                    timeCalc[counter].sq_Time = Double.Parse(time[i].InnerText.Substring(17,8));     
+                    timeCalc[counter].Sq_Bool = square_nodelist[i].InnerText;
+                    timeCalc[counter].sq_Time = Double.Parse(timestamp_nodelist[i].InnerText.Substring(17,8));     
                   //  Console.WriteLine("if i == sq.count -1");
                    // Console.WriteLine("time calc has: {0}, {1}", timeCalc[counter].Sq_Bool, timeCalc[counter].sq_Time);
                     counter++;
@@ -82,25 +135,25 @@ namespace ConsoleApp1
 
                 else
                 {
-                    if (sq[i].InnerText == "true" && sq[i + 1].InnerText == "false")
+                    if (square_nodelist[i].InnerText == "true" && square_nodelist[i + 1].InnerText == "false")
                     {
                         // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
                         Console.WriteLine();
                         Console.WriteLine("went from true to false");
-                        timeCalc[counter].Sq_Bool = sq[i].InnerText;
-                        timeCalc[counter].sq_Time = Double.Parse(time[i].InnerText.Substring(17, 8));
+                        timeCalc[counter].Sq_Bool = square_nodelist[i].InnerText;
+                        timeCalc[counter].sq_Time = Double.Parse(timestamp_nodelist[i].InnerText.Substring(17, 8));
                         Console.WriteLine("if square is true");
                         Console.WriteLine("time calc has: {0}, {1}", timeCalc[counter].Sq_Bool, timeCalc[counter].sq_Time);
                         counter++;
                     }
 
-                    else if (sq[i].InnerText == "false" && sq[i + 1].InnerText == "true")
+                    else if (square_nodelist[i].InnerText == "false" && square_nodelist[i + 1].InnerText == "true")
                     {
                         // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
                         //Console.WriteLine("crassssh");
                         Console.WriteLine();
-                        timeCalc[counter].Sq_Bool = sq[i].InnerText;
-                        timeCalc[counter].sq_Time = Double.Parse(time[i].InnerText.Substring(17, 8));
+                        timeCalc[counter].Sq_Bool = square_nodelist[i].InnerText;
+                        timeCalc[counter].sq_Time = Double.Parse(timestamp_nodelist[i].InnerText.Substring(17, 8));
                         Console.WriteLine("if square is false");
                         Console.WriteLine("time calc has: {0}, {1}", timeCalc[counter].Sq_Bool, timeCalc[counter].sq_Time);
                         Console.WriteLine("attempting to print length of time calc: {0}",timeCalc.Length);
@@ -147,276 +200,6 @@ namespace ConsoleApp1
 
             Console.WriteLine("timecalc.length is: {0}",timeCalc.Length); 
         }
-
-        public void Cross()
-        {
-            
-
-            for (int i = 0; i <= cr.Count - 1; i++)
-            {
-
-                if (i == (cr.Count - 1))
-                {
-                    Console.WriteLine(cr[i].InnerText);
-                    Console.WriteLine("end of array, take this time and subtract");
-                }
-                else
-                {
-                    if (cr[i].InnerText == "true" && cr[i + 1].InnerText == "false")
-                    {
-                        // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
-
-                        Console.WriteLine("went from true to false");
-                    }
-
-                    else if (cr[i].InnerText == "false" && cr[i + 1].InnerText == "true")
-                    {
-                        // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
-                        Console.WriteLine("crassssh");
-                    }
-                }//else
-            }//for loop
-        }//Cross
-
-        public void Circle()
-        {
-            //XmlNodeList ci = xmlDoc.GetElementsByTagName("Circle");
-
-            for (int i = 0; i <= ci.Count - 1; i++)
-            {
-
-                if (i == (ci.Count - 1))
-                {
-                    Console.WriteLine(ci[i].InnerText);
-                    Console.WriteLine("end of array, take this time and subtract");
-                }
-                else
-                {
-                    if (ci[i].InnerText == "true" && ci[i + 1].InnerText == "false")
-                    {
-                        // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
-
-                        Console.WriteLine("went from true to false");
-                    }
-
-                    else if (ci[i].InnerText == "false" && ci[i + 1].InnerText == "true")
-                    {
-                        // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
-                        Console.WriteLine("crassssh");
-                    }
-                }//else
-            }//for loop
-        }//Circle
-
-        public void Triangle()
-        {
-            //XmlNodeList tr = xmlDoc.GetElementsByTagName("Triangle");
-
-            for (int i = 0; i <= tr.Count - 1; i++)
-            {
-
-                if (i == (tr.Count - 1))
-                {
-                    Console.WriteLine(tr[i].InnerText);
-                    Console.WriteLine("end of array, take this time and subtract");
-                }
-                else
-                {
-                    if (tr[i].InnerText == "true" && tr[i + 1].InnerText == "false")
-                    {
-                        // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
-
-                        Console.WriteLine("went from true to false");
-                    }
-
-                    else if (tr[i].InnerText == "false" && tr[i + 1].InnerText == "true")
-                    {
-                        // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
-                        Console.WriteLine("crassssh");
-                    }
-                }//else
-            }//for loop
-        }//Triangle
-
-        public void L1()
-        {
-            //XmlNodeList l1 = xmlDoc.GetElementsByTagName("L1");
-
-            for (int i = 0; i <= l1.Count - 1; i++)
-            {
-
-                if (i == (l1.Count - 1))
-                {
-                    Console.WriteLine(l1[i].InnerText);
-                    Console.WriteLine("end of array, take this time and subtract");
-                }
-                else
-                {
-                    if (l1[i].InnerText == "true" && l1[i + 1].InnerText == "false")
-                    {
-                        // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
-
-                        Console.WriteLine("went from true to false");
-                    }
-
-                    else if (l1[i].InnerText == "false" && l1[i + 1].InnerText == "true")
-                    {
-                        // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
-                        Console.WriteLine("crassssh");
-                    }
-                }//else
-            }//for loop
-        }//L1
-
-        public void R1()
-        {
-            //XmlNodeList r1 = xmlDoc.GetElementsByTagName("R1");
-
-            for (int i = 0; i <= r1.Count - 1; i++)
-            {
-
-                if (i == (r1.Count - 1))
-                {
-                    Console.WriteLine(r1[i].InnerText);
-                    Console.WriteLine("end of array, take this time and subtract");
-                }
-                else
-                {
-                    if (r1[i].InnerText == "true" && r1[i + 1].InnerText == "false")
-                    {
-                        // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
-
-                        Console.WriteLine("went from true to false");
-                    }
-
-                    else if (r1[i].InnerText == "false" && r1[i + 1].InnerText == "true")
-                    {
-                        // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
-                        Console.WriteLine("crassssh");
-                    }
-                }//else
-            }//for loop
-        }//R1
-
-        public void DPad_Up()
-        {
-            //XmlNodeList du = xmlDoc.GetElementsByTagName("DPad_Up");
-
-            for (int i = 0; i <= du.Count - 1; i++)
-            {
-
-                if (i == (du.Count - 1))
-                {
-                    Console.WriteLine(du[i].InnerText);
-                    Console.WriteLine("end of array, take this time and subtract");
-                }
-                else
-                {
-                    if (du[i].InnerText == "true" && du[i + 1].InnerText == "false")
-                    {
-                        // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
-
-                        Console.WriteLine("went from true to false");
-                    }
-
-                    else if (du[i].InnerText == "false" && du[i + 1].InnerText == "true")
-                    {
-                        // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
-                        Console.WriteLine("crassssh");
-                    }
-                }//else
-            }//for loop
-        }//Dpad Up
-
-        public void DPad_Right()
-        {
-            //XmlNodeList dr = xmlDoc.GetElementsByTagName("DPad_Right");
-
-            for (int i = 0; i <= dr.Count - 1; i++)
-            {
-
-                if (i == (dr.Count - 1))
-                {
-                    Console.WriteLine(dr[i].InnerText);
-                    Console.WriteLine("end of array, take this time and subtract");
-                }
-                else
-                {
-                    if (dr[i].InnerText == "true" && dr[i + 1].InnerText == "false")
-                    {
-                        // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
-
-                        Console.WriteLine("went from true to false");
-                    }
-
-                    else if (dr[i].InnerText == "false" && dr[i + 1].InnerText == "true")
-                    {
-                        // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
-                        Console.WriteLine("crassssh");
-                    }
-                }//else
-            }//for loop
-        }//Dpad Right
-
-        public void DPad_Down()
-        {
-            //XmlNodeList dDo = xmlDoc.GetElementsByTagName("DPad_Down");
-
-            for (int i = 0; i <= dDo.Count - 1; i++)
-            {
-
-                if (i == (dDo.Count - 1))
-                {
-                    Console.WriteLine(dDo[i].InnerText);
-                    Console.WriteLine("end of array, take this time and subtract");
-                }
-                else
-                {
-                    if (dDo[i].InnerText == "true" && dDo[i + 1].InnerText == "false")
-                    {
-                        // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
-
-                        Console.WriteLine("went from true to false");
-                    }
-
-                    else if (dDo[i].InnerText == "false" && dDo[i + 1].InnerText == "true")
-                    {
-                        // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
-                        Console.WriteLine("crassssh");
-                    }
-                }//else
-            }//for loop
-        }//Dpad down
-
-        public void DPad_Left()
-        {
-            //XmlNodeList dl = xmlDoc.GetElementsByTagName("DPad_Left");
-
-            for (int i = 0; i <= dl.Count - 1; i++)
-            {
-
-                if (i == (dl.Count - 1))
-                {
-                    Console.WriteLine(dl[i].InnerText);
-                    Console.WriteLine("end of array, take this time and subtract");
-                }
-                else
-                {
-                    if (dl[i].InnerText == "true" && dl[i + 1].InnerText == "false")
-                    {
-                        // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
-
-                        Console.WriteLine("went from true to false");
-                    }
-
-                    else if (dl[i].InnerText == "false" && dl[i + 1].InnerText == "true")
-                    {
-                        // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
-                        Console.WriteLine("crassssh");
-                    }
-                }//else
-            }//for loop
-        }//Dpad Left
 
         public void trim_Array()
         {
