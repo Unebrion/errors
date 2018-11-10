@@ -30,7 +30,7 @@ namespace ConsoleApp1
                 xmlDoc.Load("../../../test_set.xml");
 
                 buttonState bs = new buttonState(xmlDoc);
-                bs.Square();
+                //bs.Square();
                 //bs.trim_Array();
             }
             catch (FileNotFoundException ex)
