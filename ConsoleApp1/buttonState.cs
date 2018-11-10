@@ -146,6 +146,11 @@ namespace ConsoleApp1
                         absolute_start_time = timestamp_nodelist[i].InnerText;
                         start_of_array = true;
                     }
+                    else
+                    {
+                        start_of_array = false;
+                    }
+
                     state_button temp_state = new state_button();
 
                     for (int j = 0; j <= const_button_arr_length - 1; j++)
@@ -175,7 +180,6 @@ namespace ConsoleApp1
         //this struct is then put into an array of type Button
         public single_button build_single_button(string button_pointer, int boolean_index, bool start_flag, bool end_flag)
         {
-            int counter = 0;
             single_button temp_button = new single_button();
 
             XmlNodeList current_button = find_curr_button(button_pointer);
@@ -185,20 +189,25 @@ namespace ConsoleApp1
             //last entry - all buttons last press
             if (end_flag)
             {
-                Console.Write("end of array");
-                    
-                //  Console.WriteLine(sq[i].InnerText);
-                //  Console.WriteLine("end of array, take this time and subtract");    
-
-                //timeCalc[counter].Sq_Bool = square_nodelist[i].InnerText;
-                //timeCalc[counter].sq_Time = Double.Parse(timestamp_nodelist[i].InnerText.Substring(17, 8));
-                //  Console.WriteLine("if i == sq.count -1");
-                // Console.WriteLine("time calc has: {0}, {1}", timeCalc[counter].Sq_Bool, timeCalc[counter].sq_Time);
+                temp_button.is_pressed = false;
+                temp_button.end_time = timestamp_nodelist[boolean_index].InnerText;
+                temp_button.start_time = null;
             }
             //start entry - can't look backwards
             else if (start_flag)
             {
-                Console.Write("start of array");
+                if (current_button[boolean_index].InnerText == "true")
+                {
+                    temp_button.is_pressed = true;
+                    temp_button.end_time = null;
+                    temp_button.start_time = timestamp_nodelist[boolean_index].InnerText;
+                }
+                else
+                {
+                    temp_button.is_pressed = false;
+                    temp_button.end_time = null;
+                    temp_button.start_time = timestamp_nodelist[boolean_index].InnerText;
+                }
             }
             else
             {
@@ -206,30 +215,23 @@ namespace ConsoleApp1
                 if (current_button[boolean_index - 1].InnerText == "true" && current_button[boolean_index].InnerText == "false")
                 {
                     temp_button.is_pressed = false;
-                    // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
-                    Console.WriteLine();
-                    Console.WriteLine("went from true to false");
-                    timeCalc[counter].Sq_Bool = square_nodelist[i].InnerText;
-                    timeCalc[counter].sq_Time = Double.Parse(timestamp_nodelist[i].InnerText.Substring(17, 8));
-                    Console.WriteLine("if square is true");
-                    Console.WriteLine("time calc has: {0}, {1}", timeCalc[counter].Sq_Bool, timeCalc[counter].sq_Time);
-                    counter++;
+                    temp_button.end_time = timestamp_nodelist[boolean_index].InnerText;
+                    temp_button.start_time = null;
                 }
 
                 //start a button press
-                else if (square_nodelist[boolean_index].InnerText == "false" && square_nodelist[boolean_index + 1].InnerText == "true")
+                else if (current_button[boolean_index - 1].InnerText == "false" && current_button[boolean_index].InnerText == "true")
                 {
-                    // timeDifference[i] = Double.Parse(time[i].InnerText.Substring(17, 8));
-                    //Console.WriteLine("crassssh");
-                    Console.WriteLine();
-                    timeCalc[counter].Sq_Bool = square_nodelist[i].InnerText;
-                    timeCalc[counter].sq_Time = Double.Parse(timestamp_nodelist[i].InnerText.Substring(17, 8));
-                    Console.WriteLine("if square is false");
-                    Console.WriteLine("time calc has: {0}, {1}", timeCalc[counter].Sq_Bool, timeCalc[counter].sq_Time);
-                    Console.WriteLine("attempting to print length of time calc: {0}", timeCalc.Length);
-                    //  Console.WriteLine("print out timeclock.sq_bool: {0}",timeCalc[i].Sq_Bool);
-                    counter++;
+                    temp_button.is_pressed = true;
+                    temp_button.end_time = null;
+                    temp_button.start_time = timestamp_nodelist[boolean_index].InnerText;
                 }//else if
+                else
+                {
+                    temp_button.is_pressed = false;
+                    temp_button.end_time = null;
+                    temp_button.start_time = null;
+                }
 
                     
             }//else

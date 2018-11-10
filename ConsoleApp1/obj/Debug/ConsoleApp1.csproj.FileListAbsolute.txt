@@ -33,3 +33,6 @@ Q:\Projects\Repo\errors\ConsoleApp1\obj\Debug\ConsoleApp1.pdb
 Q:\Projects\Repo\errors\ConsoleApp1\bin\Debug\ConsoleApp1.exe.config
 Q:\Projects\Repo\errors\ConsoleApp1\bin\Debug\ConsoleApp1.exe
 Q:\Projects\Repo\errors\ConsoleApp1\bin\Debug\ConsoleApp1.pdb
+C:\Users\Deathscythe\Desktop\projects\errors\ConsoleApp1\bin\Debug\ConsoleApp1.exe.config
+C:\Users\Deathscythe\Desktop\projects\errors\ConsoleApp1\obj\Debug\ConsoleApp1.exe
+C:\Users\Deathscythe\Desktop\projects\errors\ConsoleApp1\obj\Debug\ConsoleApp1.pdb
