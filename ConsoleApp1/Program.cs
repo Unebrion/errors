@@ -24,14 +24,19 @@ namespace ConsoleApp1
 
         public static void Main(string[] args)
         {
+            bool DEBUG = true;
             try
             {
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.Load("../../../test_set.xml");
 
-                buttonState bs = new buttonState(xmlDoc);
-                //bs.Square();
-                //bs.trim_Array();
+                buttonState button_state = new buttonState(xmlDoc);
+                button_state.scan_xml();
+
+
+
+
+
             }
             catch (FileNotFoundException ex)
             {
