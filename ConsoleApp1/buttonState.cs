@@ -9,7 +9,7 @@ using System.IO;
 
 namespace ConsoleApp1
 {
-    class buttonState
+   public class buttonState
     {
         //declare class-local var
         //constant super array, will be fed into generic method later
@@ -45,9 +45,9 @@ namespace ConsoleApp1
                      timestamp_nodelist;
         single_button[] timeCalc;
         single_button[] trimmedCalc;
-        int xml_length;
+       public int xml_length;
         int const_button_arr_length = const_button_arr.Length;
-        IList<state_button> state_output = new List<state_button>();
+        public static IList<state_button> state_output = new List<state_button>();
         string absolute_start_time;
         string absolute_end_time;
         bool DEBUG = true;

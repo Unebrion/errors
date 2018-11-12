@@ -13,18 +13,13 @@ namespace ConsoleApp1
     class Program
     {
 
-        public DateTime ReportTimeStamp { get; set; }
-
-        struct Button
-        {
-            public String isPressed;
-            public String timePressed;
-        }
-
-
         public static void Main(string[] args)
         {
             bool DEBUG = true;
+            var tempo = buttonState.state_output;
+
+
+
             try
             {
                 XmlDocument xmlDoc = new XmlDocument();
@@ -32,10 +27,15 @@ namespace ConsoleApp1
 
                 buttonState button_state = new buttonState(xmlDoc);
                 button_state.scan_xml();
+                
+                
 
-
-
-
+                IList<buttonState> temp = new List<buttonState>();
+                foreach (var button in temp)
+                {
+                   // Console.WriteLine(temp.);
+                }
+                
 
             }
             catch (FileNotFoundException ex)
