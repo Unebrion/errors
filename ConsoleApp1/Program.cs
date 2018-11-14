@@ -16,10 +16,6 @@ namespace ConsoleApp1
         public static void Main(string[] args)
         {
             bool DEBUG = true;
-            var tempo = buttonState.state_output;
-
-
-
             try
             {
                 XmlDocument xmlDoc = new XmlDocument();
@@ -27,19 +23,17 @@ namespace ConsoleApp1
 
                 buttonState button_state = new buttonState(xmlDoc);
                 button_state.scan_xml();
-                
-                
+                button_state.output_file();
 
-                IList<buttonState> temp = new List<buttonState>();
-                foreach (var button in temp)
-                {
-                   // Console.WriteLine(temp.);
-                }
-                
+                //scriptBuilder sb = new scriptBuilder();
+                //sb.outputFile();
+                Console.ReadLine();
+                    
 
             }
             catch (FileNotFoundException ex)
             {
+                
                 Console.Write("Exception occured: {0}", ex.Message);
                 throw;
             }

@@ -10,18 +10,21 @@ namespace ConsoleApp1
     //andysucks.com
     class scriptBuilder
     {
-
+        
         public void outputFile()
         {
-            buttonState bs = new buttonState();
-            bs.scan_xml();
-            
-            
-
-
-
+            var button_results = buttonState.state_output;
+            foreach (var button in button_results)
+            {
+                Console.WriteLine(button_results);
+                Console.WriteLine("WAAAAAAAAAT");
+            }                       
         }
 
+        public void do_Stuff()
+        {
+            Console.WriteLine("such mad");
+        }
 
 
 

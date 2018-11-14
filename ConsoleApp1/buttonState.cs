@@ -9,7 +9,7 @@ using System.IO;
 
 namespace ConsoleApp1
 {
-   public class buttonState
+    class buttonState
     {
         //declare class-local var
         //constant super array, will be fed into generic method later
@@ -45,12 +45,13 @@ namespace ConsoleApp1
                      timestamp_nodelist;
         single_button[] timeCalc;
         single_button[] trimmedCalc;
-       public int xml_length;
+        public int xml_length;
         int const_button_arr_length = const_button_arr.Length;
         public static IList<state_button> state_output = new List<state_button>();
         string absolute_start_time;
         string absolute_end_time;
         bool DEBUG = true;
+        StreamWriter output_text_file = new StreamWriter("c:\\macro.txt",true);
 
 
         //state of a single button (single 0 or 1 in matrix)
@@ -351,25 +352,86 @@ namespace ConsoleApp1
                 Console.WriteLine(button.square.start_time);
                 Console.WriteLine(button.square.end_time);
                 Console.WriteLine("------------------------------------------------------------------------");
-                Console.WriteLine("TRIANGLE");
-                Console.WriteLine(button.triangle.is_pressed);
-                Console.WriteLine(button.triangle.start_time);
-                Console.WriteLine(button.triangle.end_time);
-                Console.WriteLine("------------------------------------------------------------------------");
-                Console.WriteLine("CIRCLE");
-                Console.WriteLine(button.circle.is_pressed);
-                Console.WriteLine(button.circle.start_time);
-                Console.WriteLine(button.circle.end_time);
-                Console.WriteLine("------------------------------------------------------------------------");
-                Console.WriteLine("CROSS");
-                Console.WriteLine(button.cross.is_pressed);
-                Console.WriteLine(button.cross.start_time);
-                Console.WriteLine(button.cross.end_time);
+                //Console.WriteLine("TRIANGLE");
+                //Console.WriteLine(button.triangle.is_pressed);
+                //Console.WriteLine(button.triangle.start_time);
+                //Console.WriteLine(button.triangle.end_time);
+                //Console.WriteLine("------------------------------------------------------------------------");
+                //Console.WriteLine("CIRCLE");
+                //Console.WriteLine(button.circle.is_pressed);
+                //Console.WriteLine(button.circle.start_time);
+                //Console.WriteLine(button.circle.end_time);
+                //Console.WriteLine("------------------------------------------------------------------------");
+                //Console.WriteLine("CROSS");
+                //Console.WriteLine(button.cross.is_pressed);
+                //Console.WriteLine(button.cross.start_time);
+                //Console.WriteLine(button.cross.end_time);
                 i++;
             }
             
 
         }
+
+        // am mad fuck dat new class I'm making shit here for now
+
+        public void output_file()
+        {
+            //state_output
+            //Press(new DualShockState() {BUTTON = BOOL });
+            // I hate error checking Suuuuuuuuuuuuuuuck
+            //it gets mad when there is nulls... so much typing required
+
+
+            foreach (var button in state_output)
+            {
+
+                //if (button.square.is_pressed == true)
+                //{
+                   // output_text_file.WriteLine("Press (new DualShockState() Square = {1})");
+                    //square case
+                    bool square_flip = false;
+                    Double square_start = 0;
+                    Double square_end = 0;
+
+
+                    if (button.square.start_time != null)
+                    {
+                        square_start = Double.Parse(button.square.start_time.Substring(17, 8));
+
+                    }
+
+                    else if (button.square.end_time != null)
+                    {
+                        square_end = Double.Parse(button.square.end_time.Substring(17, 8));
+                    }
+
+                    else if (button.square.start_time != null && button.square.end_time != null)
+                    {
+                        Double difference = 0;
+                        difference = square_end - square_start;
+                        output_text_file.WriteLine("Press (new DualShockState() {Square = True)");
+                        output_text_file.WriteLine("Sleep({0})",difference);
+                        square_start = 0;
+                        square_end = 0;
+                    }
+
+
+              //  }
+
+              //  output_text_file.WriteLine("Press (new DualShockState() {{0} = {1})", button.square.start_time.ToString(), button.square.end_time.ToString());
+            }
+
+
+
+            //output_text_file.WriteLine("Press (new DualShockState() {{0} = {1})");
+            //output_text_file.WriteLine("text go in file!");
+            output_text_file.Close();
+        }
+
+
+
+
+
     }
 
 }//namespace
