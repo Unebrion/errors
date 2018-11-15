@@ -53,6 +53,9 @@ namespace ConsoleApp1
         bool DEBUG = true;
         StreamWriter output_text_file = new StreamWriter("c:\\macro.txt",true);
 
+        Double square_start = 0;
+        Double square_end = 0;
+
 
         //state of a single button (single 0 or 1 in matrix)
         public struct single_button
@@ -390,22 +393,21 @@ namespace ConsoleApp1
                    // output_text_file.WriteLine("Press (new DualShockState() Square = {1})");
                     //square case
                     bool square_flip = false;
-                    Double square_start = 0;
-                    Double square_end = 0;
 
 
+                        //if there is a start time
                     if (button.square.start_time != null)
                     {
                         square_start = Double.Parse(button.square.start_time.Substring(17, 8));
-
+                   
                     }
-
+                        //if there is an end time
                     else if (button.square.end_time != null)
                     {
                         square_end = Double.Parse(button.square.end_time.Substring(17, 8));
                     }
 
-                    else if (button.square.start_time != null && button.square.end_time != null)
+                    else if (square_start != 0 && square_end != 0)
                     {
                         Double difference = 0;
                         difference = square_end - square_start;
