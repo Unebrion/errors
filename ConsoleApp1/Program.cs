@@ -15,7 +15,6 @@ namespace ConsoleApp1
 
         public static void Main(string[] args)
         {
-            bool DEBUG = true;
             try
             {
                 XmlDocument xmlDoc = new XmlDocument();

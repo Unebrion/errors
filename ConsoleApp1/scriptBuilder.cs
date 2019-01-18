@@ -12,12 +12,24 @@ namespace ConsoleApp1
     //andysucks.com
     class scriptBuilder
     {
-        StreamWriter output_text_file = new StreamWriter("../../../macro.txt", true);
+        Double square_start;
+        Double square_end;
+        string macro_txt;
+        StreamWriter output_text_file;
 
-        Double square_start = 0;
-        Double square_end = 0;
+        public scriptBuilder()
+        {
+            square_start = 0;
+            square_end = 0;
+            macro_txt = "../../../macro.txt";
 
-        // am mad fuck dat new class I'm making shit here for now
+            if (File.Exists(macro_txt))
+            {
+                File.Delete(macro_txt);
+            }
+            output_text_file = new StreamWriter(macro_txt, true);
+
+        }
 
         public void output_file()
         {
