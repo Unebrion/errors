@@ -32,8 +32,7 @@ namespace ConsoleApp1
 
             }
             catch (FileNotFoundException ex)
-            {
-                
+            {                
                 Console.Write("Exception occured: {0}", ex.Message);
                 throw;
             }

@@ -87,7 +87,6 @@ namespace ConsoleApp1
             {
                 Console.WriteLine("Enter file path:");
                 xmlDoc.Load(Console.ReadLine());
-
                 timestamp_nodelist = xmlDoc.GetElementsByTagName("ReportTimeStamp");
                 square_nodelist = xmlDoc.GetElementsByTagName("Square");
                 cross_nodelist = xmlDoc.GetElementsByTagName("Cross");
@@ -98,7 +97,6 @@ namespace ConsoleApp1
                 dpad_down_nodelist = xmlDoc.GetElementsByTagName("DPad_Down");
                 dpad_left_nodelist = xmlDoc.GetElementsByTagName("DPad_Left");
                 xml_length = timestamp_nodelist.Count;
-
                 timeCalc = new single_button[xmlDoc.GetElementsByTagName("Square").Count];
             }
             catch (FileNotFoundException ex)
@@ -113,7 +111,6 @@ namespace ConsoleApp1
             try
             {
                 xmlDoc = xml;
-
                 timestamp_nodelist = xmlDoc.GetElementsByTagName("ReportTimeStamp");
                 square_nodelist = xmlDoc.GetElementsByTagName("Square");
                 cross_nodelist = xmlDoc.GetElementsByTagName("Cross");
@@ -256,6 +253,7 @@ namespace ConsoleApp1
                     temp_button.end_time = null;
                     temp_button.start_time = timestamp_nodelist[boolean_index].InnerText;
                 }
+
                 //error
                 else
                 {
@@ -384,22 +382,56 @@ namespace ConsoleApp1
             // I hate error checking Suuuuuuuuuuuuuuuck
             //it gets mad when there is nulls... so much typing required
 
+            bool start_of_array = false;
+            bool end_of_array = false;
+            single_button output_temp_button;
+
+
+
+            //for (int i = 0; i <= xml_length - 1; i++)
+            //{
+            //    //TODO: convert absolute times to doubles
+            //    if (i == 0)
+            //    {
+            //        absolute_start_time = timestamp_nodelist[i].InnerText;
+            //        start_of_array = true;
+            //    }
+            //    else
+            //    {
+            //        start_of_array = false;
+            //    }
+
+            //    state_button temp_state = new state_button();
+
+            //    //cycles though all the buttons in each frame of xml file
+            //    for (int j = 0; j <= const_button_arr_length - 1; j++)
+            //    {
+            //        if (i == (xml_length - 1))
+            //        {
+            //            //special condition end of boolean array
+            //            end_of_array = true;
+            //            absolute_end_time = timestamp_nodelist[i].InnerText;
+            //        }
+            //        //generic button info gatherer
+            //        output_temp_button = build_single_button(const_button_arr[j], i, start_of_array, end_of_array);
+            //        temp_state = build_button_state(const_button_arr[j], output_temp_button, temp_state);
+            //    }
+
+            //    temp_state.inst_time = timestamp_nodelist[i].InnerText;
+            //    state_output.Add(temp_state);
+            //}
+
+
 
             foreach (var button in state_output)
             {
-
-                //if (button.square.is_pressed == true)
-                //{
-                   // output_text_file.WriteLine("Press (new DualShockState() Square = {1})");
-                    //square case
-                    bool square_flip = false;
-
-
-                        //if there is a start time
+                                  
+                    //square case//
+                                        
+                    //if there is a start time
                     if (button.square.start_time != null)
                     {
-                        square_start = Double.Parse(button.square.start_time.Substring(17, 8));
-                   
+                        square_start = Double.Parse(button.square.start_time.Substring(17, 8));                   
                     }
                         //if there is an end time
                     else if (button.square.end_time != null)
@@ -407,7 +439,7 @@ namespace ConsoleApp1
                         square_end = Double.Parse(button.square.end_time.Substring(17, 8));
                     }
 
-                    else if (square_start != 0 && square_end != 0)
+                    if (square_start != 0 && square_end != 0)
                     {
                         Double difference = 0;
                         difference = square_end - square_start;
@@ -415,24 +447,12 @@ namespace ConsoleApp1
                         output_text_file.WriteLine("Sleep({0})",difference);
                         square_start = 0;
                         square_end = 0;
-                    }
-
-
-              //  }
-
-              //  output_text_file.WriteLine("Press (new DualShockState() {{0} = {1})", button.square.start_time.ToString(), button.square.end_time.ToString());
+                    }      
             }
 
-
-
-            //output_text_file.WriteLine("Press (new DualShockState() {{0} = {1})");
-            //output_text_file.WriteLine("text go in file!");
+            //gotta have this our it won't put stuff in txt. I dunno why
             output_text_file.Close();
-        }
-
-
-
-
+        }//output_file()
 
     }
 
