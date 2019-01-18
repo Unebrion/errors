@@ -23,10 +23,10 @@ namespace ConsoleApp1
 
                 buttonState button_state = new buttonState(xmlDoc);
                 button_state.scan_xml();
-                button_state.output_file();
+               
+                scriptBuilder sb = new scriptBuilder();
+                sb.output_file();
 
-                //scriptBuilder sb = new scriptBuilder();
-                //sb.outputFile();
                 Console.ReadLine();
                     
 

@@ -51,11 +51,6 @@ namespace ConsoleApp1
         string absolute_start_time;
         string absolute_end_time;
         bool DEBUG = true;
-        StreamWriter output_text_file = new StreamWriter("c:\\macro.txt",true);
-
-        Double square_start = 0;
-        Double square_end = 0;
-
 
         //state of a single button (single 0 or 1 in matrix)
         public struct single_button
@@ -369,91 +364,8 @@ namespace ConsoleApp1
                 //Console.WriteLine(button.cross.end_time);
                 i++;
             }
-            
+
 
         }
-
-        // am mad fuck dat new class I'm making shit here for now
-
-        public void output_file()
-        {
-            //state_output
-            //Press(new DualShockState() {BUTTON = BOOL });
-            // I hate error checking Suuuuuuuuuuuuuuuck
-            //it gets mad when there is nulls... so much typing required
-
-            bool start_of_array = false;
-            bool end_of_array = false;
-            single_button output_temp_button;
-
-
-
-            //for (int i = 0; i <= xml_length - 1; i++)
-            //{
-            //    //TODO: convert absolute times to doubles
-            //    if (i == 0)
-            //    {
-            //        absolute_start_time = timestamp_nodelist[i].InnerText;
-            //        start_of_array = true;
-            //    }
-            //    else
-            //    {
-            //        start_of_array = false;
-            //    }
-
-            //    state_button temp_state = new state_button();
-
-            //    //cycles though all the buttons in each frame of xml file
-            //    for (int j = 0; j <= const_button_arr_length - 1; j++)
-            //    {
-            //        if (i == (xml_length - 1))
-            //        {
-            //            //special condition end of boolean array
-            //            end_of_array = true;
-            //            absolute_end_time = timestamp_nodelist[i].InnerText;
-            //        }
-            //        //generic button info gatherer
-            //        output_temp_button = build_single_button(const_button_arr[j], i, start_of_array, end_of_array);
-            //        temp_state = build_button_state(const_button_arr[j], output_temp_button, temp_state);
-            //    }
-
-            //    temp_state.inst_time = timestamp_nodelist[i].InnerText;
-            //    state_output.Add(temp_state);
-            //}
-
-
-
-            foreach (var button in state_output)
-            {
-                                  
-                    //square case//
-                                        
-                    //if there is a start time
-                    if (button.square.start_time != null)
-                    {
-                        square_start = Double.Parse(button.square.start_time.Substring(17, 8));                   
-                    }
-                        //if there is an end time
-                    else if (button.square.end_time != null)
-                    {
-                        square_end = Double.Parse(button.square.end_time.Substring(17, 8));
-                    }
-
-                    if (square_start != 0 && square_end != 0)
-                    {
-                        Double difference = 0;
-                        difference = square_end - square_start;
-                        output_text_file.WriteLine("Press (new DualShockState() {Square = True)");
-                        output_text_file.WriteLine("Sleep({0})",difference);
-                        square_start = 0;
-                        square_end = 0;
-                    }      
-            }
-
-            //gotta have this our it won't put stuff in txt. I dunno why
-            output_text_file.Close();
-        }//output_file()
-
     }
-
 }//namespace
